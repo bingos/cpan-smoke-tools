@@ -50,6 +50,12 @@ my @authors = (
 my $minismokebox = File::Spec->catfile($Config::Config{installsitescript},'minismokebox');
 die "No 'minismokebox' found\n" unless $minismokebox;
 my $perl = File::Spec->catfile($path,'bin','perl');
+unless ( -e $perl ) {
+  # hmmm no perl there. Let's see if it is a dev release
+  my @possibles = glob("${perl}5*");
+  die "No perl executable found at '$path'\n" unless @possibles;
+  my $perl = shift @possibles;
+}
 my $cpanp = File::Spec->catfile($path,'bin','cpanp');
 my $output = capture_merged { system($perl,'-e','printf "%vd", $^V;'); };
 chomp $output;
