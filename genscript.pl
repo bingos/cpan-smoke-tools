@@ -54,12 +54,11 @@ unless ( -e $perl ) {
   # hmmm no perl there. Let's see if it is a dev release
   my @possibles = glob("${perl}5*");
   die "No perl executable found at '$path'\n" unless @possibles;
-  my $perl = shift @possibles;
+  $perl = shift @possibles;
 }
-my $cpanp = File::Spec->catfile($path,'bin','cpanp');
 my $output = capture_merged { system($perl,'-e','printf "%vd", $^V;'); };
 chomp $output;
-#my $conf = File::Spec->catdir($ENV{PERL5_YACSMOKE_BASE},'.cpanplus',$output);
+my $cpanp = File::Spec->catfile($path,'bin', 'cpanp' . ( $perl =~ /\Q$output\E$/ ? $output : '' ) );
 my $conf = File::Spec->catdir(_find_cpanp_dir(),'.cpanplus',$output);
 
 print $script qq{$minismokebox --perl $perl\n} if $recent;
