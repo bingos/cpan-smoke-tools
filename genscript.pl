@@ -50,6 +50,7 @@ my @authors = (
 my $minismokebox = File::Spec->catfile($Config::Config{installsitescript},'minismokebox');
 die "No 'minismokebox' found\n" unless $minismokebox;
 my $perl = File::Spec->catfile($path,'bin','perl');
+my $yactool = File::Spec->catfile($path,'bin','yactool');
 unless ( -e $perl ) {
   # hmmm no perl there. Let's see if it is a dev release
   my @possibles = glob("${perl}5*");
@@ -59,12 +60,12 @@ unless ( -e $perl ) {
 my $output = capture_merged { system($perl,'-e','printf "%vd", $^V;'); };
 chomp $output;
 my $cpanp = File::Spec->catfile($path,'bin', 'cpanp' . ( $perl =~ /\Q$output\E$/ ? $output : '' ) );
-my $conf = File::Spec->catdir(_find_cpanp_dir(),'.cpanplus',$output);
 
 print $script qq{$minismokebox --perl $perl\n} if $recent;
 
 foreach my $author ( @authors ) {
-  print $script qq{perl -MFile::Path -e 'rmtree shift;' $conf\n};
+  #print $script qq{perl -MFile::Path -e 'rmtree shift;' $conf\n};
+  print $script qq{$yactool --flush\n};
   print $script qq{$cpanp -x --update_source\n};
   print $script qq{$minismokebox --perl $perl --author '$author'\n};
 }
@@ -73,19 +74,6 @@ print $script qq{perl -MFile::Path -e 'rmtree shift;' $conf\n};
 close $script;
 chmod 0755, 'smokeall.sh' or die "$!\n";
 exit 0;
-
-sub _find_cpanp_dir {
-  return $ENV{PERL5_YACSMOKE_BASE} if $ENV{PERL5_YACSMOKE_BASE};
-  my @os_home_envs = qw( APPDATA HOME USERPROFILE WINDIR SYS$LOGIN );
-
-  for my $env ( @os_home_envs ) {
-    next unless exists $ENV{ $env };
-    next unless defined $ENV{ $env } && length $ENV{ $env };
-    return $ENV{ $env } if -d $ENV{ $env };
-  }
-
-  return cwd();
-}
 
 __END__
 
