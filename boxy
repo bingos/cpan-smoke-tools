@@ -34,6 +34,16 @@ use CPANPLUS::Configure;
 use CPANPLUS::Internals::Constants;
 use CPANPLUS::Internals::Utils;
 
+use Getopt::Long;
+
+my $mx;
+my $email;
+my $mirror;
+
+GetOptions( 'mx=s', \$mx, 'email=s', \$email, 'mirror=s', \$mirror );
+
+die "No --email specified, please do so\n" unless $email;
+
 {   for my $dir ( ($BUNDLE_DIR, $LIB_DIR) ) {
         my $base_re = quotemeta $dir;
 
@@ -82,9 +92,19 @@ my $ConfigFile  = $ConfObj->_config_pm_to_file( $Config => $PRIV_LIB );
         $ConfObj->set_conf( base    => $BASE );     # new base dir
         $ConfObj->set_conf( verbose => 1     );     # be verbose
         $ConfObj->set_conf( prereqs => 1     );     # install prereqs
-        #$ConfObj->set_conf( email   => ''     );     # install prereqs
-        #$ConfObj->set_conf( cpantest => 1     );     # install prereqs
-        #$ConfObj->set_conf( cpantest_mx => ''     );     # install prereqs
+        $ConfObj->set_conf( email   => $email     );     # install prereqs
+        $ConfObj->set_conf( cpantest => 1     );     # install prereqs
+        $ConfObj->set_conf( cpantest_mx => $mx     ) if $mx;     # install prereqs
+        if ( $mirror ) {
+          my $hosts = $ConfObj->get_conf('hosts');
+          my @parts = $mirror =~ m|^(\w*)://([^/]*)(/.*)$|s;
+          my $href;
+          for my $key (qw[scheme host path]) {
+           $href->{$key} = shift @parts;
+          }
+          unshift @$hosts, $href;
+          $ConfObj->set_conf( hosts => $hosts );
+        }
         $ConfObj->save(     $Config => $PRIV_LIB ); # save the pm in that dir
     }
 }
