@@ -105,6 +105,7 @@ my $ConfigFile  = $ConfObj->_config_pm_to_file( $Config => $PRIV_LIB );
           unshift @$hosts, $href;
           $ConfObj->set_conf( hosts => $hosts );
         }
+        $ConfObj->set_conf( enable_custom_sources => 0     );
         $ConfObj->save(     $Config => $PRIV_LIB ); # save the pm in that dir
     }
 }
