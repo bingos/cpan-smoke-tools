@@ -35,7 +35,7 @@ for ( @mirrors ) {
   for my $key (qw[scheme host path]) {
     $href->{$key} = shift @parts;
   }
-  unshift @$hosts, $href;
+  push @$hosts, $href;
 }
 $conf->set_conf( hosts => $hosts );
 $conf->save();
