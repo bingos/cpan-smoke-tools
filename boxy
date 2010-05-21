@@ -39,8 +39,9 @@ use Getopt::Long;
 my $mx;
 my $email;
 my $mirror;
+my $metabase;
 
-GetOptions( 'mx=s', \$mx, 'email=s', \$email, 'mirror=s', \$mirror );
+GetOptions( 'mx=s', \$mx, 'email=s', \$email, 'mirror=s', \$mirror, 'metabase', \$metabase );
 
 die "No --email specified, please do so\n" unless $email;
 
@@ -133,5 +134,8 @@ my $ConfigFile  = $ConfObj->_config_pm_to_file( $Config => $PRIV_LIB );
           Module::Build
           CPANPLUS::YACSmoke
       );
+
+    $cb->module_tree( 'Test::Reporter::Transport::Socket' )->install() if $metabase;
+
     $_->install() for map { $su->modules_for_feature( $_ ) } qw(prefer_makefile md5 storable cpantest);
 }
