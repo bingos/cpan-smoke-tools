@@ -11,6 +11,7 @@ die "No 'minismokebox' found\n" unless $minismokebox;
 
 open my $script, '>', 'rotate.sh' or die "$!\n";
 print $script '#!/bin/sh', "\n";
+print $script "while true;\ndo\n";
 
 foreach my $arg ( @ARGV ) {
   my $path = Cwd::realpath($arg);
@@ -45,6 +46,7 @@ foreach my $arg ( @ARGV ) {
     print $script "$yactool --flush\n";
   }
 }
+print "done\n";
 close $script;
 chmod 0755, 'rotate.sh' or die "$!\n";
 exit 0;
