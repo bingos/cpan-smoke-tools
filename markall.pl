@@ -4,7 +4,12 @@ use File::Spec;
 use Capture::Tiny qw[capture_merged];
 use Cwd;
 
+use FindBin qw[$Bin];
+
 die unless @ARGV;
+
+my $upscript = File::Spec->catfile($Bin,'markone.pl');
+die unless -e $upscript;
 
 foreach my $arg ( @ARGV ) {
   my $path = Cwd::realpath($arg);
@@ -33,7 +38,8 @@ foreach my $arg ( @ARGV ) {
     #chomp $output;
     my $yactool = File::Spec->catfile($path,$perl,'bin','yactool');
     local $ENV{PERL5_YACSMOKE_BASE} = $conf;
-    system($yactool,'--mark','URI','pass');
+    system($perlexe,$upscript);
+    system($yactool,'--flush');
   }
 }
 exit 0;
