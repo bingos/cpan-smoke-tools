@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use File::Spec;
+use IPC::Cmd qw[can_run];
 use Capture::Tiny qw[capture_merged];
 use Cwd;
 
@@ -9,8 +10,14 @@ die unless @ARGV;
 my $minismokebox = File::Spec->catfile($Config::Config{installsitescript},'minismokebox');
 die "No 'minismokebox' found\n" unless $minismokebox;
 
+my $shell;
+
+$shell = can_run('bash');
+$shell = can_run('sh') unless $shell;
+$shell = '/bin/sh' unless $shell;
+
 open my $script, '>', 'rotate.sh' or die "$!\n";
-print $script '#!/bin/sh', "\n";
+print $script "#!$shell", "\n";
 print $script "while true;\ndo\n";
 
 foreach my $arg ( @ARGV ) {
@@ -46,7 +53,7 @@ foreach my $arg ( @ARGV ) {
     print $script "$yactool --flush\n";
   }
 }
-print "done\n";
+print $script "done\n";
 close $script;
 chmod 0755, 'rotate.sh' or die "$!\n";
 exit 0;
