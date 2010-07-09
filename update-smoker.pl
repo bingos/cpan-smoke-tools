@@ -20,5 +20,6 @@ $cb->module_tree( $_ )->install() for
           ExtUtils::Manifest
           Module::Build
           CPANPLUS::YACSmoke
+          Test::Reporter::Transport::Socket
       );
 $_->install() for map { $su->modules_for_feature( $_ ) } qw(prefer_makefile md5 storable cpantest);
