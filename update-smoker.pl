@@ -1,11 +1,17 @@
 use strict;
 use warnings;
+BEGIN {
+  use FindBin qw($Bin);
+  use lib $Bin;
+}
 use CPANPLUS::Configure;
 use CPANPLUS::Backend;
 my $conf = CPANPLUS::Configure->new();
 $conf->set_conf( prereqs => 1 );
+$conf->set_conf( no_update => '1' );
+$conf->set_conf( source_engine => 'CPANPLUS::Internals::Source::CPANIDX' );
 my $cb = CPANPLUS::Backend->new( $conf );
-$cb->reload_indices( update_source => 1 );
+#$cb->reload_indices( update_source => 1 );
 my $su = $cb->selfupdate_object;
 
 $su->selfupdate( update => 'dependencies', latest => 1 );
