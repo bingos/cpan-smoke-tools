@@ -36,7 +36,7 @@ foreach my $arg ( @ARGV ) {
     #my $output = capture_merged { system($perlexe,'-e','printf "%vd", $^V;'); };
     #chomp $output;
     my $yactool = File::Spec->catfile($path,$perl,'bin','yactool');
-    local $ENV{PERL5_YACSMOKE_BASE} = $conf;
+    local $ENV{APPDATA} = $conf;
     system($perlexe,$upscript);
     system($yactool,'--flush');
   }
