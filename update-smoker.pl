@@ -7,6 +7,7 @@ BEGIN {
 use CPANPLUS::Configure;
 use CPANPLUS::Backend;
 my $conf = CPANPLUS::Configure->new();
+$conf->set_conf( cpantest => 0 );
 $conf->set_conf( prereqs => 1 );
 $conf->set_conf( no_update => '1' );
 $conf->set_conf( source_engine => 'CPANPLUS::Internals::Source::CPANIDX' );
