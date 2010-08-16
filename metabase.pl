@@ -12,7 +12,14 @@ GetOptions( 'relay=s', \$relay, 'port=s' => \$port );
 die "No --relay or --port specified, please do so\n" unless $relay and $port;
 
 my $conf = CPANPLUS::Configure->new();
-$conf->set_conf( cpantest_reporter_args => { transport => 'Socket', transport_args => [ host => $relay, port => $port ] } )
-  if $relay and $port and check_install( module => 'Test::Reporter::Transport::Socket' );
+if ( $relay and $port ) {
+  if ( check_install( module => 'Test::Reporter::Transport::Socket' ) ) {
+    $conf->set_conf( cpantest_reporter_args => 
+      { transport => 'Socket', transport_args => [ host => $relay, port => $port ] } );
+  }
+  else {
+    warn "Test::Reporter::Transport::Socket is not installed\n";
+  }
+}
 $conf->save();
 exit 0;
