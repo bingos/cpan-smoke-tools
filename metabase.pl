@@ -21,6 +21,5 @@ if ( $relay and $port ) {
     warn "Test::Reporter::Transport::Socket is not installed\n";
   }
 }
-$conf->set_conf( prefer_bin => 1 );
 $conf->save();
 exit 0;

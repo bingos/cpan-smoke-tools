@@ -1,0 +1,10 @@
+use strict;
+use warnings;
+use CPANPLUS::Configure;
+use Module::Load::Conditional qw[check_install];
+my $conf = CPANPLUS::Configure->new();
+use Data::Dumper;
+$Data::Dumper::Indent=1;
+warn Dumper( $conf->get_conf( 'hosts' ) );
+warn Dumper( $conf->get_conf( 'cpantest_reporter_args' ) );
+exit 0;
