@@ -1,17 +1,10 @@
 use strict;
 use warnings;
 use File::Spec;
-use Getopt::Long;
 use Capture::Tiny qw[capture_merged];
 use Cwd;
 
 use FindBin qw[$Bin];
-
-my ($relay,$port);
-
-GetOptions( 'relay=s', \$relay, 'port=s' => \$port );
-
-die "No --relay or --port specified, please do so\n" unless $relay and $port;
 
 die unless @ARGV;
 
