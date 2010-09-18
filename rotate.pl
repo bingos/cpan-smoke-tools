@@ -3,6 +3,7 @@ use warnings;
 use File::Spec;
 use IPC::Cmd qw[can_run];
 use Capture::Tiny qw[capture_merged];
+use Perl::Version;
 use Cwd;
 
 die unless @ARGV;
@@ -33,7 +34,7 @@ foreach my $arg ( @ARGV ) {
   }
   closedir $dir;
   next unless @perls;
-  foreach my $perl ( sort @perls ) {
+  foreach my $perl ( sort _version_sort @perls ) {
     my $conf = File::Spec->catdir( $confroot, $perl );
     next unless -d $conf;
     my $perlexe = File::Spec->catfile($path,$perl,'bin','perl');
@@ -57,3 +58,7 @@ print $script "done\n";
 close $script;
 chmod 0755, 'rotate.sh' or die "$!\n";
 exit 0;
+
+sub _version_sort {
+  Perl::Version->new( ( split /-/, $a )[1] )->numify <=> Perl::Version->new( ( split /-/, $b )[1] )->numify
+}
