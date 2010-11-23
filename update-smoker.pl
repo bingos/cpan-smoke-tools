@@ -23,6 +23,7 @@ $cb->module_tree( $_ )->install() for
           Compress::Raw::Bzip2
           Compress::Raw::Zlib
           Compress::Zlib
+          ExtUtils::MakeMaker
           ExtUtils::CBuilder
           ExtUtils::ParseXS
           ExtUtils::Manifest
