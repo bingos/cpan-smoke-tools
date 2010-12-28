@@ -9,7 +9,7 @@ use Cwd;
 
 die unless @ARGV;
 
-my $zapscript = File::Spec->catfile( $BIN, 'zaptmp.pl' );
+my $zapscript = File::Spec->catfile( $Bin, 'zaptmp.pl' );
 my $minismokebox = File::Spec->catfile($Config::Config{installsitescript},'minismokebox');
 die "No 'minismokebox' found\n" unless $minismokebox;
 
