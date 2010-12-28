@@ -4,10 +4,12 @@ use File::Spec;
 use IPC::Cmd qw[can_run];
 use Capture::Tiny qw[capture_merged];
 use Perl::Version;
+use FindBin qw[$Bin];
 use Cwd;
 
 die unless @ARGV;
 
+my $zapscript = File::Spec->catfile( $BIN, 'zaptmp.pl' );
 my $minismokebox = File::Spec->catfile($Config::Config{installsitescript},'minismokebox');
 die "No 'minismokebox' found\n" unless $minismokebox;
 
@@ -52,6 +54,7 @@ foreach my $arg ( @ARGV ) {
     print $script "$cpanp -x --update_source\n";
     print $script "$minismokebox --perl $perlexe\n";
     print $script "$yactool --flush\n";
+    print $script "$^X $zapscript\n";
   }
 }
 print $script "done\n";
