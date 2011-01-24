@@ -57,6 +57,7 @@ foreach my $arg ( @ARGV ) {
     print $script "$^X $zapscript\n";
   }
 }
+print $script "ipcrm -m all\nipcrm -s all\n" if $^O eq 'netbsd';
 print $script "done\n";
 close $script;
 chmod 0755, 'rotate.sh' or die "$!\n";
