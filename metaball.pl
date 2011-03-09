@@ -7,9 +7,9 @@ use Cwd;
 
 use FindBin qw[$Bin];
 
-my ($relay,$port);
+my ($relay,$port,$flush);
 
-GetOptions( 'relay=s', \$relay, 'port=s' => \$port );
+GetOptions( 'relay=s', \$relay, 'port=s' => \$port, 'flush' => \$flush );
 
 die "No --relay or --port specified, please do so\n" unless $relay and $port;
 
@@ -46,7 +46,7 @@ foreach my $arg ( @ARGV ) {
     my $yactool = File::Spec->catfile($path,$perl,'bin','yactool');
     local $ENV{APPDATA} = $conf;
     system($perlexe,$upscript,'--relay',$relay,'--port',$port);
-    system($yactool,'--flush');
+    system($yactool,'--flush') if $flush;
   }
 }
 exit 0;
