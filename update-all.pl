@@ -4,7 +4,12 @@ use File::Spec;
 use Capture::Tiny qw[capture_merged];
 use Cwd;
 use Perl::Version;
+use Getopt::Long;
 use FindBin qw[$Bin];
+
+my $skiptests;
+
+GetOptions( 'skiptests', \$skiptests, );
 
 die unless @ARGV;
 
@@ -38,7 +43,9 @@ foreach my $arg ( @ARGV ) {
     #chomp $output;
     my $yactool = File::Spec->catfile($path,$perl,'bin','yactool');
     local $ENV{APPDATA} = $conf;
-    system($perlexe,$upscript);
+    my @cmd = ($perlexe,$upscript);
+    push @cmd, '--skiptests' if $skiptests;
+    system(@cmd);
     system($yactool,'--flush');
   }
 }
