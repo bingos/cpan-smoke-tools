@@ -95,10 +95,10 @@ can be used to smoke test all of CPAN using L<minismokebox>
 The script will locate the L<minismokebox> that is associated with the C<perl>
 that was used to execute the script and use that in the generated script.
 
-The value of the C<%ENV> variable C<PERL5_YACSMOKE_BASE> is used to find the 
+The value of the C<%ENV> variable C<PERL5_YACSMOKE_BASE> is used to find the
 location of the C<.cpanplus> folder which requires cleaning up.
 
-The C<--path> command-line switch is used to find the C<perl> executable to 
+The C<--path> command-line switch is used to find the C<perl> executable to
 use to do the smoke testing with.
 
   Example: perl-5.10.1 has been built and installed with Dprefix=/home/cpan/perl-5.10.1
@@ -123,7 +123,7 @@ of CPAN.
 
 The script generates a shell script in the current working directory called C<smokeall.sh>
 
-This can be simply invoked 
+This can be simply invoked
 
   ./smokeall.sh
 

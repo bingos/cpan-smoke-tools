@@ -14,7 +14,7 @@ die "No --relay or --port specified, please do so\n" unless $relay and $port;
 my $conf = CPANPLUS::Configure->new();
 if ( $relay and $port ) {
   if ( check_install( module => 'Test::Reporter::Transport::Socket' ) ) {
-    $conf->set_conf( cpantest_reporter_args => 
+    $conf->set_conf( cpantest_reporter_args =>
       { transport => 'Socket', transport_args => [ host => $relay, port => $port ] } );
   }
   else {
