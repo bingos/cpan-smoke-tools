@@ -25,7 +25,7 @@ my $all = shift || 0;
 
 $Term::UI::AUTOREPLY = 1 if $all;
 
-if ( -e 'skiplist' ) { 
+if ( -e 'skiplist' ) {
   open my $skip, '<', 'skiplist' or die "Could not open skiplist: $!\n";
   while( <$skip> ) {
     chomp;
@@ -46,7 +46,7 @@ populate_cpan( $loc );
 my %seen;
 foreach my $module ( sort keys %installed ) {
   # Eliminate core modules
-  if ( supplied_with_core( $module ) and !$cpan{ $module } ) { 
+  if ( supplied_with_core( $module ) and !$cpan{ $module } ) {
     delete $installed{ $module };
     next;
   }
@@ -102,7 +102,7 @@ $conf->set_conf( dist_type => 'CPANPLUS::Dist::YACSmoke' )
   if check_install( module => 'CPANPLUS::Dist::YACSmoke' );
 $conf->set_conf( 'prereqs' => 2 );
 $conf->set_conf( prefer_bin => 1 );
-$conf->set_conf( 'cpantest_reporter_args' => 
+$conf->set_conf( 'cpantest_reporter_args' =>
     {
       transport       => 'Socket',
       transport_args  => [ host => $host, port => 8080 ],
@@ -184,18 +184,18 @@ sub _all_installed {
     for my $dir (@INC ) {
         next if $dir eq '.';
 
-        ### not a directory after all 
+        ### not a directory after all
         ### may be coderef or some such
         next unless -d $dir;
 
         ### make sure to clean up the directories just in case,
         ### as we're making assumptions about the length
         ### This solves rt.cpan issue #19738
-        
-        ### John M. notes: On VMS cannonpath can not currently handle 
+
+        ### John M. notes: On VMS cannonpath can not currently handle
         ### the $dir values that are in UNIX format.
         $dir = File::Spec->canonpath( $dir ) unless ON_VMS;
-        
+
         ### have to use F::S::Unix on VMS, or things will break
         my $file_spec = ON_VMS ? 'File::Spec::Unix' : 'File::Spec';
 
@@ -210,8 +210,8 @@ sub _all_installed {
 
                     ### make sure it's in Unix format, as it
                     ### may be in VMS format on VMS;
-                    $mod = VMS::Filespec::unixify( $mod ) if ON_VMS;                    
-                    
+                    $mod = VMS::Filespec::unixify( $mod ) if ON_VMS;
+
                     $mod = substr($mod, length($dir) + 1, -3);
                     $mod = join '::', $file_spec->splitdir($mod);
 
