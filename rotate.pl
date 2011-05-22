@@ -5,7 +5,12 @@ use IPC::Cmd qw[can_run];
 use Capture::Tiny qw[capture_merged];
 use Perl::Version;
 use FindBin qw[$Bin];
+use Getopt::Long;
 use Cwd;
+
+my $reverse;
+
+GetOptions( 'reverse', \$reverse, );
 
 die unless @ARGV;
 
@@ -64,5 +69,10 @@ chmod 0755, 'rotate.sh' or die "$!\n";
 exit 0;
 
 sub _version_sort {
-  Perl::Version->new( ( split /-/, $a )[1] )->numify <=> Perl::Version->new( ( split /-/, $b )[1] )->numify
+  if ( $reverse ) {
+    Perl::Version->new( ( split /-/, $b )[1] )->numify <=> Perl::Version->new( ( split /-/, $a )[1] )->numify;
+  }
+  else {
+    Perl::Version->new( ( split /-/, $a )[1] )->numify <=> Perl::Version->new( ( split /-/, $b )[1] )->numify;
+  }
 }
