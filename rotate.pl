@@ -6,11 +6,13 @@ use Capture::Tiny qw[capture_merged];
 use Perl::Version;
 use FindBin qw[$Bin];
 use Getopt::Long;
+use List::UtilsBy qw[zip_by];
 use Cwd;
 
 my $reverse;
+my $weave;
 
-GetOptions( 'reverse', \$reverse, );
+GetOptions( 'reverse', \$reverse, 'weave', \$weave );
 
 die unless @ARGV;
 
@@ -28,7 +30,11 @@ open my $script, '>', 'rotate.sh' or die "$!\n";
 print $script "#!$shell", "\n";
 print $script "while true;\ndo\n";
 
+my @order;
+my %things;
+
 foreach my $arg ( @ARGV ) {
+  push @order, $arg;
   my $path = Cwd::realpath($arg);
   next unless -d $path;
   my $confroot = File::Spec->catdir( $path, 'conf' );
@@ -55,13 +61,34 @@ foreach my $arg ( @ARGV ) {
     chomp $output;
     my $cpanp = File::Spec->catfile($path,$perl,'bin','cpanp' . ( $perlexe =~ /\Q$output\E$/ ? $output : '' ) );
     my $yactool = File::Spec->catfile($path,$perl,'bin','yactool');
-    print $script "export PERL5_YACSMOKE_BASE=$conf\n";
-    print $script "$cpanp -x --update_source\n";
-    print $script "$minismokebox --perl $perlexe\n";
-    print $script "$yactool --flush\n";
-    print $script "$^X $zapscript\n";
+    push @{ $things{ $arg } },
+    {
+      perlexe => $perlexe,
+      yactool => $yactool,
+      cpanp   => $cpanp,
+      conf    => $conf,
+    };
   }
 }
+
+my @data;
+
+if ( $weave ) {
+  @data = zip_by { @_ } @things{ @order };
+}
+else {
+  @data = @things{ @order };
+}
+
+foreach my $item ( @data ) {
+  my ($conf,$perlexe,$cpanp,$yactool) = @{$item}{qw(conf perlexe cpanp yactool)};
+  print $script "export PERL5_YACSMOKE_BASE=$conf\n";
+  print $script "$cpanp -x --update_source\n";
+  print $script "$minismokebox --perl $perlexe\n";
+  print $script "$yactool --flush\n";
+  print $script "$^X $zapscript\n";
+}
+
 print $script "ipcrm -m all\nipcrm -s all\n" if $^O eq 'netbsd';
 print $script "done\n";
 close $script;
