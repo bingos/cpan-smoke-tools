@@ -11,8 +11,9 @@ use Cwd;
 
 my $reverse;
 my $weave;
+my $random;
 
-GetOptions( 'reverse', \$reverse, 'weave', \$weave );
+GetOptions( 'reverse', \$reverse, 'weave', \$weave, 'random', \$random );
 
 die unless @ARGV;
 
@@ -84,7 +85,9 @@ foreach my $item ( @data ) {
   my ($conf,$perlexe,$cpanp,$yactool) = @{$item}{qw(conf perlexe cpanp yactool)};
   print $script "export PERL5_YACSMOKE_BASE=$conf\n";
   print $script "$cpanp -x --update_source\n";
-  print $script "$minismokebox --perl $perlexe\n";
+  print $script "$minismokebox --perl $perlexe";
+  print $script "  --recent --random" if $random;
+  print $script "\n";
   print $script "$yactool --flush\n";
   print $script "$^X $zapscript\n";
 }
