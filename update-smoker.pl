@@ -37,3 +37,10 @@ $cb->module_tree( $_ )->install() for
           Test::Reporter::Transport::Socket
       );
 $_->install() for map { $su->modules_for_feature( $_ ) } qw(prefer_makefile md5 storable cpantest);
+
+exit 0 unless $ENV{UPDATE_EXTRAS};
+
+foreach my $extra ( split /,/, $ENV{UPDATE_EXTRAS} ) {
+  next unless my $mod = $cb->parse_module( module => $extra );
+  $mod->install();
+}
