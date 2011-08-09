@@ -3,7 +3,7 @@
 BEGIN {
 my %fatpacked;
 
-$fatpacked{"Devel/PatchPerl.pm"} = <<'CONFIG_TINY';
+$fatpacked{"Config/Tiny.pm"} = <<'CONFIG_TINY';
 	package Config::Tiny;
 	# If you thought Config::Simple was small...
 	use strict;
@@ -124,6 +124,7 @@ use File::Spec;
 use Module::Load::Conditional qw[check_install];
 use CPANPLUS::Configure;
 use CPANPLUS::Backend;
+use Config::Tiny;
 use Getopt::Long;
 
 my $host = '';

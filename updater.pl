@@ -3,7 +3,7 @@
 BEGIN {
 my %fatpacked;
 
-$fatpacked{"Devel/PatchPerl.pm"} = <<'CONFIG_TINY';
+$fatpacked{"Config/Tiny.pm"} = <<'CONFIG_TINY';
 	package Config::Tiny;
 	# If you thought Config::Simple was small...
 	use strict;
@@ -131,10 +131,21 @@ use Module::Load::Conditional qw[check_install];
 use CPANPLUS::Internals::Constants;
 use CPANPLUS::Backend;
 use CPANPLUS::Error;
+use Config::Tiny;
 
 my $host = '';
 my $mirror = '';
 my $cpanidx = '';
+
+CONFIG: {
+  my $file = _get_config_file();
+  last CONFIG unless $file and -e $file;
+  my $conf = Config::Tiny->new()->read( $file );
+  last CONFIG unless $conf;
+  $mirror  = $conf->{_}->{mirror};
+  $host    = $conf->{_}->{relay};
+  $cpanidx = $conf->{_}->{cpanidx};
+}
 
 $ENV{PERL5_CPANIDX_URL} = $cpanidx if $cpanidx;
 $ENV{PERL_MM_USE_DEFAULT} = 1; # despite verbose setting
