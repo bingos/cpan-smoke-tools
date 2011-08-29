@@ -1,0 +1,14 @@
+debug=1
+nolog=1
+rss=0
+url=http://cpan.mirror.local/CPAN/
+home=/home/cpan/fake
+noepoch=1
+
+[IRC]
+server=192.168.1.252
+port=6669
+nick=CHANGE
+
+[Stats]
+enable=0
