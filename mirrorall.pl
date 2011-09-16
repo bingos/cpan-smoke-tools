@@ -11,8 +11,6 @@ my ($mirror);
 
 GetOptions( 'mirror=s', \$mirror );
 
-die "No --relay or --port specified, please do so\n" unless $relay and $port;
-
 die unless @ARGV;
 
 my $upscript = File::Spec->catfile($Bin,'mirrors.pl');
