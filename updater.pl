@@ -249,7 +249,7 @@ if ( $mirror ) {
   for my $key (qw[scheme host path]) {
     $href->{$key} = shift @parts;
   }
-  push @$hosts, $href;
+  unshift @$hosts, $href;
   $conf->set_conf( hosts => $hosts );
 }
 my $cb = CPANPLUS::Backend->new($conf);
