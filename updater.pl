@@ -158,7 +158,7 @@ my %installed;
 my %cpan;
 my %skip;
 my $printonly;
-my $all = shift || 0;
+my $all;
 
 GetOptions( 'all', \$all, 'print', \$printonly );
 
