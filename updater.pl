@@ -131,7 +131,10 @@ use Module::Load::Conditional qw[check_install];
 use CPANPLUS::Internals::Constants;
 use CPANPLUS::Backend;
 use CPANPLUS::Error;
+use Getopt::Long;
 use Config::Tiny;
+
+$|=1;
 
 my $host = '';
 my $mirror = '';
@@ -154,7 +157,10 @@ $ENV{PERL_EXTUTILS_AUTOINSTALL} = '--defaultdeps';
 my %installed;
 my %cpan;
 my %skip;
+my $printonly;
 my $all = shift || 0;
+
+GetOptions( 'all', \$all, 'print', \$printonly );
 
 $Term::UI::AUTOREPLY = 1 if $all;
 
@@ -216,6 +222,10 @@ foreach my $module ( sort keys %installed ) {
     delete $installed{ $module };
     next;
   }
+  if ( $printonly ) {
+    print $package, "\n";
+    next;
+  }
   unless ( $term->ask_yn(
                prompt => "Update package '$package' for '$module' ?",
                default => 'y',
@@ -227,6 +237,8 @@ foreach my $module ( sort keys %installed ) {
     }
   }
 }
+
+exit 0 if $printonly;
 
 my $conf = CPANPLUS::Configure->new();
 $conf->set_conf( no_update => '1' );
