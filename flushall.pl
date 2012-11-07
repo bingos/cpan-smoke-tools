@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use File::Spec;
 use Capture::Tiny qw[capture_merged];
+use Perl::Version;
 use Cwd;
 
 use FindBin qw[$Bin];
@@ -21,7 +22,7 @@ foreach my $arg ( @ARGV ) {
   }
   closedir $dir;
   next unless @perls;
-  foreach my $perl ( sort @perls ) {
+  foreach my $perl ( sort _version_sort @perls ) {
     my $conf = File::Spec->catdir( $confroot, $perl );
     next unless -d $conf;
     my $perlexe = File::Spec->catfile($path,$perl,'bin','perl');
@@ -37,3 +38,7 @@ foreach my $arg ( @ARGV ) {
   }
 }
 exit 0;
+
+sub _version_sort {
+  Perl::Version->new( ( split /-/, $a )[1] )->numify <=> Perl::Version->new( ( split /-/, $b )[1] )->numify;
+}
