@@ -1,0 +1,4 @@
+mirror=http://cpan.mirror.local/CPAN/
+relay=relay.metabase.local
+cpanidx=http://cpan.mirror.local/cpanidx/
+email=bingos@cpan.org
