@@ -3,7 +3,12 @@ use warnings;
 use File::Spec;
 use Config;
 use IPC::Cmd qw[can_run];
+use Getopt::Long;
 use Cwd;
+
+my $compiler = '';
+GetOptions( 'cc=s', \$compiler );
+$compiler = '' unless can_run( $compiler );
 
 my $smokebrew = File::Spec->catfile($Config::Config{installsitescript},'smokebrew');
 die "No 'smokebrew' found\n" unless $smokebrew;
@@ -32,7 +37,11 @@ push @types, ( 'rel', '64bit' ) unless $Config::Config{use64bitall};
 
 foreach my $type ( @types ) {
   print $script "$smokebrew --prefix ",
-    join(' ', File::Spec->catdir( $root, $type ), @{ $choices->{ $type } } ), "\n";
+    join(' ',
+      File::Spec->catdir( $root, $type ),
+      @{ $choices->{ $type } },
+      ( $compiler ? qq{--perlargs "-Dcc=$compiler"} : () ),
+    ), "\n";
 }
 
 close $script;
