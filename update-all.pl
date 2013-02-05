@@ -7,11 +7,14 @@ use Perl::Version;
 use Getopt::Long;
 use FindBin qw[$Bin];
 
-my $skiptests;
+my $skiptests = 1;
+my $tests;
 
-GetOptions( 'skiptests', \$skiptests, );
+GetOptions( 'skiptests', \$skiptests, 'tests', \$tests );
 
 die unless @ARGV;
+
+$skiptests = !$tests;
 
 my $upscript = File::Spec->catfile($Bin,'update-smoker.pl');
 die unless -e $upscript;
