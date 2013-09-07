@@ -21,5 +21,15 @@ mkpath( File::Spec->catdir( $pit, $_ ) ) for qw[build jail authors];
 chdir $pit;
 system( $git, 'clone', 'git://github.com/bingos/cpan-smoke-tools.git', 'tools' );
 copy( File::Spec->catfile( $pit, qw[tools vimrc] ), File::Spec->catfile( $home, '.vimrc' ) );
-copy( File::Spec->catfile( $pit, qw[tools minismokebox] ), File::Spec->catfile( $home, qw[.smokebox minismokebox] ) );
+#copy( File::Spec->catfile( $pit, qw[tools minismokebox] ), File::Spec->catfile( $home, qw[.smokebox minismokebox] ) );
 copy( File::Spec->catfile( $pit, qw[tools smokebrew.cfg] ), File::Spec->catfile( $home, qw[.smokebrew smokebrew.cfg] ) );
+{
+  open my $msbox, '<', File::Spec->catfile( $pit, qw[tools minismokebox] ) or die "$!\n";
+  local $/;
+  my $content = <$msbox>;
+  close $msbox;
+  $content =~ s!CHANGE!$host!ms;
+  open my $hmsbox, '>', File::Spec->catfile( $home, qw[.smokebox minismokebox] ) or die "$!\n";
+  print {$hmsbox} $content;
+  close $hmsbox;
+}
