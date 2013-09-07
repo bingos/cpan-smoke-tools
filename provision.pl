@@ -11,7 +11,7 @@ use Cwd qw[chdir];
 my $git = can_run('git');
 die "No 'git' no dice\n" unless $git;
 
-my $host = +( split '.', hostname )[0];
+my $host = +( split m!\.!, hostname )[0];
 my $home = bsd_glob("~");
 my $pit = File::Spec->catdir( $home, 'pit' );
 mkpath( File::Spec->catdir( $home, '.smokebrew' ) );
