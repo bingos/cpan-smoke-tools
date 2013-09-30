@@ -3,7 +3,7 @@ use warnings;
 use File::Path qw[rmtree];
 use File::Spec;
 
-my $tmpdir = shift or die;
+my $tmpdir = shift || glob('~/fake');
 die unless -d $tmpdir;
 my $name   = 'cpan';
 my $uid    = getpwnam($name);
