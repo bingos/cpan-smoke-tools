@@ -107,7 +107,7 @@ CONFIG_TINY
 
 s/^  //mg for values %fatpacked;
 
-unshift @INC, sub {
+push @INC, sub {
   if (my $fat = $fatpacked{$_[1]}) {
     open my $fh, '<', \$fat
       or die "FatPacker error loading $_[1] (could be a perl installation issue?)";
