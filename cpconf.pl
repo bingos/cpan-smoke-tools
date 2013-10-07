@@ -107,7 +107,7 @@ CONFIG_TINY
 
 s/^  //mg for values %fatpacked;
 
-unshift @INC, sub {
+push @INC, sub {
   if (my $fat = $fatpacked{$_[1]}) {
     open my $fh, '<', \$fat
       or die "FatPacker error loading $_[1] (could be a perl installation issue?)";
@@ -157,6 +157,7 @@ $conf->set_conf( cpantest => 'dont_cc' );
 $conf->set_conf( cpantest_mx => $mx ) if $mx;
 $conf->set_conf( email => $email );
 $conf->set_conf( prefer_bin => 1 );
+$conf->set_conf( prefer_makefile => 0 );
 $conf->set_conf( makeflags => 'UNINST=1' );
 $conf->set_conf( buildflags => 'uninst=1' );
 $conf->set_conf( enable_custom_sources => 0 );
