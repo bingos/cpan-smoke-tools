@@ -247,6 +247,7 @@ $conf->set_conf( dist_type => 'CPANPLUS::Dist::YACSmoke' )
   if check_install( module => 'CPANPLUS::Dist::YACSmoke' );
 $conf->set_conf( 'prereqs' => 2 );
 $conf->set_conf( prefer_bin => 1 );
+$conf->set_conf( prefer_makefile => 0 );
 $conf->set_conf( 'cpantest_reporter_args' =>
     {
       transport       => 'Socket',
