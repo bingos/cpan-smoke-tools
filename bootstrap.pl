@@ -23,6 +23,7 @@ my $ver = sprintf('%vd',$^V);
   print {$file} "rm -rf " . File::Spec->catdir( $prefix, '.cpanplus', 'authors', '*' ) . "\n";
   print {$file} "rm -rf " . File::Spec->catdir( $prefix, '.cpanplus', $ver ) . "\n";
   close $file;
+  chmod 0755, 'minstall.sh';
 }
 {
   # mupdate.sh
@@ -32,4 +33,5 @@ my $ver = sprintf('%vd',$^V);
   print {$file} "rm -rf " . File::Spec->catdir( $prefix, '.cpanplus', 'authors', '*' ) . "\n";
   print {$file} "rm -rf " . File::Spec->catdir( $prefix, '.cpanplus', $ver ) . "\n";
   close $file;
+  chmod 0755, 'mupdate.sh';
 }
