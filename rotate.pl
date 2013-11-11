@@ -84,6 +84,7 @@ else {
 foreach my $item ( @data ) {
   my ($conf,$perlexe,$cpanp,$yactool) = @{$item}{qw(conf perlexe cpanp yactool)};
   print $script "export PERL5_YACSMOKE_BASE=$conf\n";
+  print $script "$yactool --flush\n";
   print $script "$cpanp -x --update_source\n";
   print $script "$minismokebox --perl $perlexe";
   print $script "  --recent --random" if $random;
