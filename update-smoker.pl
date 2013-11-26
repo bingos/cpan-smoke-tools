@@ -22,17 +22,18 @@ my $su = $cb->selfupdate_object;
 $su->selfupdate( update => 'dependencies', latest => 1 );
 $cb->module_tree( $_ )->install() for
       qw(
+          version
+          ExtUtils::MakeMaker
+          Module::Build
           CPANPLUS
           File::Temp
           Compress::Raw::Bzip2
           Compress::Raw::Zlib
           Compress::Zlib
           CPAN::Meta
-          ExtUtils::MakeMaker
           ExtUtils::CBuilder
           ExtUtils::ParseXS
           ExtUtils::Manifest
-          Module::Build
           CPANPLUS::YACSmoke
           Test::Reporter::Transport::Socket
       );

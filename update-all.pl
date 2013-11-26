@@ -48,6 +48,7 @@ foreach my $arg ( @ARGV ) {
     local $ENV{APPDATA} = $conf;
     my @cmd = ($perlexe,$upscript);
     push @cmd, '--skiptests' if $skiptests;
+    system($yactool,'--flush');
     system(@cmd);
     system($yactool,'--flush');
   }
