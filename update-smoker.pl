@@ -26,6 +26,7 @@ $cb->module_tree( $_ )->install() for
           ExtUtils::MakeMaker
           Module::Build
           CPANPLUS
+          CPANPLUS::Dist::Build
           File::Temp
           Compress::Raw::Bzip2
           Compress::Raw::Zlib
