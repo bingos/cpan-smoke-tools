@@ -15,7 +15,23 @@ my $prefix = $Config::Config{prefix};
 
 my $ver = sprintf('%vd',$^V);
 
+my ($minstall,$mupdate);
+
 {
+  if ( -e 'minstall.sh' ) {
+    open my $file, '<', 'minstall.sh' or die "$!\n";
+    $minstall = grep { m!\Q$prefix\E! } <$file>;
+    close $file;
+  }
+
+  if ( -e 'mupdate.sh' ) {
+    open my $file, '<', 'mupdate.sh' or die "$!\n";
+    $mupdate = grep { m!\Q$prefix\E! } <$file>;
+    close $file;
+  }
+}
+
+unless ( $minstall ) {
   # minstall.sh
   my $mode = ( -e 'minstall.sh' ? '>>' : '>' );
   open my $file, $mode, 'minstall.sh' or die "$!\n";
@@ -25,7 +41,7 @@ my $ver = sprintf('%vd',$^V);
   close $file;
   chmod 0755, 'minstall.sh';
 }
-{
+unless ( $mupdate ) {
   # mupdate.sh
   my $mode = ( -e 'mupdate.sh' ? '>>' : '>' );
   open my $file, $mode, 'mupdate.sh' or die "$!\n";
