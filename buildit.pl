@@ -7,7 +7,8 @@ use Getopt::Long;
 use Cwd;
 
 my $compiler = '';
-GetOptions( 'cc=s', \$compiler );
+my $ld;
+GetOptions( 'cc=s', \$compiler, 'ld', \$ld );
 $compiler = '' unless can_run( $compiler );
 
 my $smokebrew = File::Spec->catfile($Config::Config{installsitescript},'smokebrew');
@@ -34,6 +35,14 @@ my $choices = {
 
 my @types = ( 'bare', 'thr' );
 push @types, ( 'rel', '64bit' ) unless $Config::Config{use64bitall};
+
+if ( $ld ) {
+  foreach my $type ( keys %{ $choices } ) {
+    $choices->{ $type . '-ld' } = [ @{ $choices->{ $type } }, '--perlargs', '"-Duselongdouble"' ];
+  }
+  push @types, ( 'bare-ld', 'thr-ld' );
+  push @types, ( 'rel-ld', '64bit-ld' ) unless $Config::Config{use64bitall};
+}
 
 foreach my $type ( @types ) {
   print $script "$smokebrew --prefix ",
