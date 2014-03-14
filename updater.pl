@@ -412,6 +412,7 @@ sub populate_cpan {
     chomp;
     my ($module,$version,$package_path) = split ' ', $_;
     my $info = CPAN::DistnameInfo->new($package_path);
+    next LINES unless $info->dist; # malformed dists, who fucking cares
     if (my $latest = $dist_latest_version{$info->dist}) {
       # $info->version < $latest
       if (compare_version($info->version, $latest)) {
@@ -536,5 +537,6 @@ sub permissive_filter {
     s/([a-j])/ord($1)-ord('a')/gie;    # DBD-Solid 0.20a
     s/[_h-z-]/./gi;                    # makepp 1.50.2vs.070506
     s/\.{2,}/./g;
+    s/.*/0/g;                          # Seriously life is too short
     $_;
 }
