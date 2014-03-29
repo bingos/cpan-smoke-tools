@@ -8,7 +8,9 @@ use Cwd;
 
 my $compiler = '';
 my $ld;
-GetOptions( 'cc=s', \$compiler, 'ld', \$ld );
+my $latest = '';
+
+GetOptions( 'cc=s', \$compiler, 'ld', \$ld, 'latest', \$latest );
 $compiler = '' unless can_run( $compiler );
 
 my $smokebrew = File::Spec->catfile($Config::Config{installsitescript},'smokebrew');
@@ -50,6 +52,7 @@ foreach my $type ( @types ) {
       File::Spec->catdir( $root, $type ),
       @{ $choices->{ $type } },
       ( $compiler ? qq{--perlargs "-Dcc=$compiler"} : () ),
+      ( $latest   ? qq{--latest} : () ),
     ), "\n";
 }
 
