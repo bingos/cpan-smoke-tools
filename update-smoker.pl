@@ -27,6 +27,7 @@ $cb->module_tree( $_ )->install() for
           Module::Build
           CPANPLUS
           CPANPLUS::Dist::Build
+          File::Path
           File::Temp
           Compress::Raw::Bzip2
           Compress::Raw::Zlib
