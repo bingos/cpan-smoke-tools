@@ -265,6 +265,7 @@ CONFIG: {
 $ENV{PERL5_CPANIDX_URL} = $cpanidx if $cpanidx;
 $ENV{PERL_MM_USE_DEFAULT} = 1; # despite verbose setting
 $ENV{PERL_EXTUTILS_AUTOINSTALL} = '--defaultdeps';
+$ENV{PERL_INSTALL_QUIET} = 1; # stfu
 
 my %installed;
 my %cpan;

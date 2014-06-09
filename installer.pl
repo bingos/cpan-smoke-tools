@@ -149,6 +149,7 @@ GetOptions( 'test' => \$test, 'uninstall' => \$uninstall );
 $ENV{PERL5_CPANIDX_URL} = $cpanidx if $cpanidx;
 $ENV{PERL_MM_USE_DEFAULT} = 1; # despite verbose setting
 $ENV{PERL_EXTUTILS_AUTOINSTALL} = '--defaultdeps';
+$ENV{PERL_INSTALL_QUIET} = 1; #stfu
 
 exit 0 unless @ARGV;
 
