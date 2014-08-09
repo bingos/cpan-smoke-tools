@@ -143,8 +143,9 @@ CONFIG: {
 
 my $test = '';
 my $uninstall = '';
+my $skiptests = '';
 
-GetOptions( 'test' => \$test, 'uninstall' => \$uninstall );
+GetOptions( 'test' => \$test, 'uninstall' => \$uninstall 'skiptests' => \$skiptests );
 
 $ENV{PERL5_CPANIDX_URL} = $cpanidx if $cpanidx;
 $ENV{PERL_MM_USE_DEFAULT} = 1; # despite verbose setting
@@ -186,7 +187,7 @@ foreach my $mod ( @ARGV ) {
     $module->uninstall();
   }
   else {
-    $module->install( ( $test ? ( target => 'create' ) : () ) );
+    $module->install( ( $test ? ( target => 'create' ) : () ), ( $skiptests ? ( skiptest => 1) : () );
   }
 }
 exit 0;
