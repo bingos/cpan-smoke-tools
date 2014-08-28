@@ -14,7 +14,13 @@ my $now    = time();
     next if $item =~ /^\.{1,2}$/;
     next if $^O eq 'openbsd' and $item eq 'uscreens';
     my $file = File::Spec->catfile($tmpdir,$item);
-    my ($fuid,$mtime) = ( stat($file) )[4,9];
+    my ($fuid,$mtime);
+    if ( -l $file ) {
+      ($fuid,$mtime) =  ( lstat($file) )[4,9];
+    }
+    else {
+      ($fuid,$mtime) =  ( stat($file) )[4,9];
+    }
     next unless $uid == $fuid; # and $now - $mtime > 86400;
     print $file, "\n";
     rmtree( $file );
