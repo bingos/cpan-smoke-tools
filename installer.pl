@@ -144,8 +144,9 @@ CONFIG: {
 my $test = '';
 my $uninstall = '';
 my $skiptests = '';
+my $harness = '';
 
-GetOptions( 'test' => \$test, 'uninstall' => \$uninstall, 'skiptests' => \$skiptests );
+GetOptions( 'harness' => \$harness, 'test' => \$test, 'uninstall' => \$uninstall, 'skiptests' => \$skiptests );
 
 $ENV{PERL5_CPANIDX_URL} = $cpanidx if $cpanidx;
 $ENV{PERL_MM_USE_DEFAULT} = 1; # despite verbose setting
@@ -187,6 +188,7 @@ foreach my $mod ( @ARGV ) {
     $module->uninstall();
   }
   else {
+    $ENV{HARNESS_OPTIONS} = $harness if $harness;
     $module->install( ( $test ? ( target => 'create' ) : () ), ( $skiptests ? ( skiptest => 1) : () ) );
   }
 }
