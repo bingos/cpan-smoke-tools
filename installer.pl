@@ -146,7 +146,7 @@ my $uninstall = '';
 my $skiptests = '';
 my $harness = '';
 
-GetOptions( 'harness' => \$harness, 'test' => \$test, 'uninstall' => \$uninstall, 'skiptests' => \$skiptests );
+GetOptions( 'harness=s' => \$harness, 'test' => \$test, 'uninstall' => \$uninstall, 'skiptests' => \$skiptests );
 
 $ENV{PERL5_CPANIDX_URL} = $cpanidx if $cpanidx;
 $ENV{PERL_MM_USE_DEFAULT} = 1; # despite verbose setting
