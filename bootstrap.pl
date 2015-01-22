@@ -45,7 +45,7 @@ unless ( $mupdate ) {
   # mupdate.sh
   my $mode = ( -e 'mupdate.sh' ? '>>' : '>' );
   open my $file, $mode, 'mupdate.sh' or die "$!\n";
-  print {$file} "PERL5_CPANPLUS_HOME=$prefix $^X tools/updater.pl --all\n";
+  print {$file} "PERL5_CPANPLUS_HOME=$prefix $^X tools/updater.pl --all \$*\n";
   print {$file} "rm -rf " . File::Spec->catdir( $prefix, '.cpanplus', 'authors', '*' ) . "\n";
   print {$file} "rm -rf " . File::Spec->catdir( $prefix, '.cpanplus', $ver ) . "\n";
   close $file;
