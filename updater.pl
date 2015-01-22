@@ -272,8 +272,9 @@ my %cpan;
 my %skip;
 my $printonly;
 my $all;
+my $harness = '';
 
-GetOptions( 'all', \$all, 'print', \$printonly );
+GetOptions( 'harness=s' => \$harness, 'all', \$all, 'print', \$printonly );
 
 $Term::UI::AUTOREPLY = 1 if $all;
 
@@ -383,6 +384,7 @@ foreach my $mod ( sort keys %installed ) {
   my $module = $cb->module_tree($mod);
   next unless $module;
   CPANPLUS::Error->flush();
+  $ENV{HARNESS_OPTIONS} = $harness if $harness;
   $module->install();
 }
 exit 0;
