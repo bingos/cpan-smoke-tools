@@ -3,14 +3,17 @@ use warnings;
 use File::Spec;
 use Config;
 
+my $opt = shift;
+$opt = '' unless $opt and $opt eq '--lite';
+
 my $prefix = $Config::Config{prefix};
 {
   local $ENV{APPDATA} = $prefix;
   system($^X, 'tools/cpconf.pl');
   system($^X, 'tools/updater.pl', '--all');
   system($^X, 'tools/installer.pl', 'List::UtilsBy');
-  system($^X, 'tools/installer.pl', 'App::SmokeBrew::Plugin::BINGOS');
-  system($^X, 'tools/installer.pl', 'App::SmokeBox::Mini::Plugin::IRC');
+  system($^X, 'tools/installer.pl', 'App::SmokeBrew::Plugin::BINGOS') unless $opt;
+  system($^X, 'tools/installer.pl', 'App::SmokeBox::Mini::Plugin::IRC') unless $opt;
 }
 
 my $ver = sprintf('%vd',$^V);
