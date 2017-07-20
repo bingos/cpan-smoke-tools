@@ -62,7 +62,6 @@ foreach my $arg ( @ARGV ) {
     chomp $output;
     my $cpanp = File::Spec->catfile($path,$perl,'bin','cpanp' . ( $perlexe =~ /\Q$output\E$/ ? $output : '' ) );
     my $yactool = File::Spec->catfile($path,$perl,'bin','yactool');
-    next unless -e $yactool; # No yactool then pointless
     push @{ $things{ $arg } },
     {
       perlexe => $perlexe,
@@ -84,6 +83,7 @@ else {
 
 foreach my $item ( @data ) {
   my ($conf,$perlexe,$cpanp,$yactool) = @{$item}{qw(conf perlexe cpanp yactool)};
+  next unless -e $yactool; # No yactool then pointless
   print $script "export PERL5_YACSMOKE_BASE=$conf\n";
   print $script "$yactool --flush\n";
   print $script "$cpanp -x --update_source\n";
