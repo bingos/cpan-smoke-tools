@@ -62,6 +62,7 @@ foreach my $arg ( @ARGV ) {
     chomp $output;
     my $cpanp = File::Spec->catfile($path,$perl,'bin','cpanp' . ( $perlexe =~ /\Q$output\E$/ ? $output : '' ) );
     my $yactool = File::Spec->catfile($path,$perl,'bin','yactool');
+    next unless -e $yactool; # No yactool then pointless
     push @{ $things{ $arg } },
     {
       perlexe => $perlexe,
