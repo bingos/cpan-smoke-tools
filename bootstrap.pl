@@ -2,13 +2,14 @@ use strict;
 use warnings;
 use File::Spec;
 use Config;
+use Module::Load::Conditional qw[can_load];
 
 my $opt = shift;
 $opt = '' unless $opt and $opt eq '--lite';
 
 my $prefix = $Config::Config{prefix};
 {
-  local $ENV{APPDATA} = $prefix;
+  local $ENV{ ( can_load( modules => { 'File::HomeDir' => 0.0 } ) ? 'PERL5_CPANPLUS_HOME' : 'APPDATA' ) } = $prefix;
   system($^X, 'tools/cpconf.pl');
   system($^X, 'tools/updater.pl', '--all');
   system($^X, 'tools/installer.pl', 'List::UtilsBy');
