@@ -17,7 +17,8 @@ GetOptions( 'reverse', \$reverse, 'weave', \$weave, 'random', \$random );
 
 die unless @ARGV;
 
-my $zapscript = File::Spec->catfile( $Bin, 'zaptmp.pl' );
+my $zaptmp  = File::Spec->catfile( $Bin, 'zaptmp.pl' );
+my $zapfake = File::Spec->catfile( $Bin, 'zapfake.pl' );
 my $minismokebox = File::Spec->catfile($Config::Config{installsitescript},'minismokebox');
 die "No 'minismokebox' found\n" unless $minismokebox;
 
@@ -91,7 +92,8 @@ foreach my $item ( @data ) {
   print $script "  --recent --random" if $random;
   print $script "\n";
   print $script "$yactool --flush\n";
-  print $script "$^X $zapscript\n";
+  print $script "$^X $zaptmp\n";
+  print $script "$^X $zapfake\n";
 }
 
 print $script "ipcrm -m all\nipcrm -s all\n" if $^O eq 'netbsd';
