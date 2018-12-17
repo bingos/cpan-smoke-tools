@@ -19,6 +19,7 @@ die unless @ARGV;
 
 my $zaptmp  = File::Spec->catfile( $Bin, 'zaptmp.pl' );
 my $zapfake = File::Spec->catfile( $Bin, 'zapfake.pl' );
+my $zapjail = File::Spec->catfile( $Bin, 'zapjail.pl' );
 my $minismokebox = File::Spec->catfile($Config::Config{installsitescript},'minismokebox');
 die "No 'minismokebox' found\n" unless $minismokebox;
 
@@ -94,6 +95,7 @@ foreach my $item ( @data ) {
   print $script "$yactool --flush\n";
   print $script "$^X $zaptmp\n";
   print $script "$^X $zapfake\n";
+  print $script "$^X $zapjail\n";
 }
 
 print $script "ipcrm -m all\nipcrm -s all\n" if $^O eq 'netbsd';
