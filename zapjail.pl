@@ -12,6 +12,7 @@ my $now    = time();
 {
   opendir( my $TMPDIR, $tmpdir ) or die "$!\n";
   while (my $item = readdir($TMPDIR)) {
+    next if $item =~ /^\./;
     next if $item =~ /^rotate\.sh$/;
     my $file = File::Spec->catfile($tmpdir,$item);
     my ($fuid,$mtime) = ( stat($file) )[4,9];
