@@ -8,9 +8,10 @@ use Cwd;
 
 my $compiler = '';
 my $ld;
+my $qm;
 my $latest = '';
 
-GetOptions( 'cc=s', \$compiler, 'ld', \$ld, 'latest', \$latest );
+GetOptions( 'cc=s', \$compiler, 'ld', \$ld, 'latest', \$latest, 'qm', \$qm );
 $compiler = '' unless can_run( $compiler );
 
 my $smokebrew = File::Spec->catfile($Config::Config{installsitescript},'smokebrew');
@@ -44,6 +45,14 @@ if ( $ld ) {
   }
   push @types, ( 'bare-ld', 'thr-ld' );
   push @types, ( 'rel-ld', '64bit-ld' ) unless $Config::Config{use64bitall};
+}
+
+if ( $qm ) {
+  foreach my $type ( grep { ! m!\-ld$! } keys %{ $choices } ) {
+    $choices->{ $type . '-qm' } = [ @{ $choices->{ $type } }, '--perlargs', '"-Dusequadmath"' ];
+  }
+  push @types, ( 'bare-qm', 'thr-qm' );
+  push @types, ( 'rel-qm', '64bit-qm' ) unless $Config::Config{use64bitall};
 }
 
 foreach my $type ( @types ) {
