@@ -85,7 +85,7 @@ else {
 
 foreach my $item ( @data ) {
   my ($conf,$perlexe,$cpanp,$yactool) = @{$item}{qw(conf perlexe cpanp yactool)};
-  next unless -e $yactool; # No yactool then pointless
+  next unless $yactool && -e $yactool; # No yactool then pointless
   print $script "export PERL5_YACSMOKE_BASE=$conf\n";
   print $script "$yactool --flush\n";
   print $script "$cpanp -x --update_source\n";
