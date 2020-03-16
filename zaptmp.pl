@@ -12,7 +12,7 @@ my $now    = time();
   opendir( my $TMPDIR, $tmpdir ) or die "$!\n";
   while (my $item = readdir($TMPDIR)) {
     next if $item =~ /^\.{1,2}$/;
-    next if $^O eq 'openbsd' and $item eq 'uscreens';
+    next if $item eq 'uscreens';
     my $file = File::Spec->catfile($tmpdir,$item);
     my ($fuid,$mtime);
     if ( -l $file ) {
