@@ -23,6 +23,7 @@ system( $git, 'clone', 'git://github.com/bingos/cpan-smoke-tools.git', 'tools' )
 copy( File::Spec->catfile( $pit, qw[tools vimrc] ), File::Spec->catfile( $home, '.vimrc' ) );
 #copy( File::Spec->catfile( $pit, qw[tools minismokebox] ), File::Spec->catfile( $home, qw[.smokebox minismokebox] ) );
 copy( File::Spec->catfile( $pit, qw[tools smokebrew.cfg] ), File::Spec->catfile( $home, qw[.smokebrew smokebrew.cfg] ) );
+copy( File::Spec->catfile( $pit, qw[tools cpansmoke.ini] ), File::Spec->catfile( $pit, 'cpansmoke.ini' ) );
 {
   open my $msbox, '<', File::Spec->catfile( $pit, qw[tools minismokebox] ) or die "$!\n";
   local $/;
