@@ -8,9 +8,10 @@ my $opt = shift;
 $opt = '' unless $opt and $opt eq '--lite';
 
 my $prefix = $Config::Config{prefix};
-{
+OPT: {
   local $ENV{ ( can_load( modules => { 'File::HomeDir' => 0.0 } ) ? 'PERL5_CPANPLUS_HOME' : 'APPDATA' ) } = $prefix;
   system($^X, 'tools/cpconf.pl');
+  last OPT if $opt;
   system($^X, 'tools/updater.pl', '--all');
   system($^X, 'tools/installer.pl', 'List::UtilsBy');
   system($^X, 'tools/installer.pl', 'App::SmokeBrew::Plugin::BINGOS') unless $opt;
