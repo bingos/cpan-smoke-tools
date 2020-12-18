@@ -133,9 +133,7 @@ my $socket;
 my $port;
 
 my @mirrors = (
-  'http://cpan.hexten.net/',
-  'http://cpan.cpantesters.org/',
-  'ftp://ftp.funet.fi/pub/CPAN/',
+  'http://www.cpan.org/',
 );
 
 CONFIG: {
