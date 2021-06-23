@@ -13,6 +13,7 @@ my $now    = time();
   while (my $item = readdir($TMPDIR)) {
     next if $item =~ /^\.{1,2}$/;
     next if $item eq 'uscreens';
+    next if $item =~ m!^tmux!;
     my $file = File::Spec->catfile($tmpdir,$item);
     my ($fuid,$mtime);
     if ( -l $file ) {
