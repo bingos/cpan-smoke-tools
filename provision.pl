@@ -19,7 +19,7 @@ mkpath( File::Spec->catdir( $home, '.smokebox'  ) );
 mkpath( $pit );
 mkpath( File::Spec->catdir( $pit, $_ ) ) for qw[build jail authors];
 chdir $pit;
-system( $git, 'clone', 'git://github.com/bingos/cpan-smoke-tools.git', 'tools' );
+system( $git, 'clone', 'https://github.com/bingos/cpan-smoke-tools.git', 'tools' );
 copy( File::Spec->catfile( $pit, qw[tools vimrc] ), File::Spec->catfile( $home, '.vimrc' ) );
 #copy( File::Spec->catfile( $pit, qw[tools minismokebox] ), File::Spec->catfile( $home, qw[.smokebox minismokebox] ) );
 copy( File::Spec->catfile( $pit, qw[tools smokebrew.cfg] ), File::Spec->catfile( $home, qw[.smokebrew smokebrew.cfg] ) );
